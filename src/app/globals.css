@@ -1,0 +1,261 @@
+@import "tailwindcss";
+
+@theme {
+  --color-rose-50: #fff1f2;
+  --color-rose-100: #ffe4e6;
+  --color-rose-200: #fecdd3;
+  --color-rose-300: #fda4af;
+  --color-rose-400: #fb7185;
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #e11d48;
+  --color-rose-700: #be123c;
+  --color-rose-800: #9f1239;
+  --color-rose-900: #881337;
+  --color-brand: #c4887a;
+  --color-brand-light: #e8c4b8;
+  --color-brand-dark: #8b5e51;
+  --color-cream: #fdf8f4;
+  --color-cream-dark: #f5ece4;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(196, 136, 122, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(196, 136, 122, 0.6); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s ease-out both;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.4) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar on nav strip */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #fdf8f4;
+}
+::-webkit-scrollbar-thumb {
+  background: #c4887a;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8b5e51;
+}
+
+/* Glass morphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #c4887a 0%, #e8c4b8 50%, #8b5e51 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero gradient */
+.hero-gradient {
+  background: linear-gradient(135deg, #fdf8f4 0%, #ffe4e6 40%, #fecdd3 70%, #fdf8f4 100%);
+}
+
+/* Product card hover effect */
+.product-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(196, 136, 122, 0.15);
+}
+
+/* Category card */
+.category-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.category-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Button shine */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+.btn-shine:hover::after {
+  left: 100%;
+}
+
+/* Testimonial card */
+.testimonial-card {
+  transition: all 0.3s ease;
+}
+.testimonial-card:hover {
+  transform: scale(1.02);
+}
+
+/* Book Appointment CTA gradient */
+.booking-gradient {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #4c1d95 50%, #6d28d9 75%, #7c3aed 100%);
+}
+
+.booking-gradient-warm {
+  background: linear-gradient(135deg, #78350f 0%, #92400e 20%, #b45309 40%, #c4887a 60%, #e8c4b8 80%, #fdf8f4 100%);
+}
+
+/* Glowing CTA button in navbar */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(196, 136, 122, 0.4), 0 0 20px rgba(196, 136, 122, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(196, 136, 122, 0.6), 0 0 40px rgba(196, 136, 122, 0.3);
+  }
+}
+
+.btn-glow {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Sparkle border animation */
+@keyframes border-sparkle {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.sparkle-border {
+  background: linear-gradient(270deg, #c4887a, #e8c4b8, #fda4af, #c4887a, #8b5e51, #c4887a);
+  background-size: 400% 400%;
+  animation: border-sparkle 4s ease infinite;
+}
+
+/* Booking card hover */
+.booking-service-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.booking-service-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(196, 136, 122, 0.2);
+}
+
+/* Ripple animation for CTA */
+@keyframes ripple {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.ripple-ring::before,
+.ripple-ring::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  border: 2px solid rgba(196, 136, 122, 0.4);
+  animation: ripple 2s ease-out infinite;
+}
+.ripple-ring::after {
+  animation-delay: 1s;
+}
