@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { sessionBookings, services, serviceCategories, branches, patientPackages, packagePlans } from "@/db/schema";
-import { eq, and, gte, desc, asc } from "drizzle-orm";
+import { eq, and, desc, asc } from "drizzle-orm";
 import { getSessionUser } from "@/lib/auth";
 
 export async function GET() {
@@ -10,7 +10,6 @@ export async function GET() {
 
   const today = new Date().toISOString().split("T")[0];
 
-  // Get all bookings
   const bookings = await db
     .select()
     .from(sessionBookings)
@@ -37,12 +36,12 @@ export async function GET() {
       sessionTime: b.sessionTime,
       status: b.status,
       paymentMethod: b.paymentMethod,
-      isUpcoming: b.sessionDate >= today,
+      patientPackageId: b.patientPackageId,
+      isUpcoming: b.sessionDate >= today && b.status !== "cancelled",
       createdAt: b.createdAt,
     });
   }
 
-  // Get active packages
   const packages = await db
     .select()
     .from(patientPackages)
@@ -52,13 +51,23 @@ export async function GET() {
   const enrichedPackages = [];
   for (const pkg of packages) {
     const [plan] = await db.select().from(packagePlans).where(eq(packagePlans.id, pkg.packagePlanId)).limit(1);
-    // Find next upcoming booking for this package
-    const nextBooking = enrichedBookings.find(b => b.isUpcoming && bookings.find(ob => ob.id === b.id && ob.patientPackageId === pkg.id));
+
+    const packageBookings = enrichedBookings.filter(
+      b => b.patientPackageId === pkg.id && (b.status === "booked" || b.status === "confirmed")
+    );
+    const sessionsBooked = packageBookings.length;
+
+    const nextBooking = enrichedBookings.find(
+      b => b.isUpcoming && b.patientPackageId === pkg.id
+    );
+
     enrichedPackages.push({
       id: pkg.id,
       planName: plan?.name || "",
       sessionsUsed: pkg.sessionsUsed,
+      sessionsBooked,
       sessionsTotal: pkg.sessionsTotal,
+      sessionsAvailable: pkg.sessionsTotal - pkg.sessionsUsed - sessionsBooked,
       startDate: pkg.startDate,
       endDate: pkg.endDate,
       nextSession: nextBooking ? { date: nextBooking.sessionDate, time: nextBooking.sessionTime } : null,
@@ -67,7 +76,7 @@ export async function GET() {
 
   return NextResponse.json({
     upcomingBookings: enrichedBookings.filter(b => b.isUpcoming),
-    pastBookings: enrichedBookings.filter(b => !b.isUpcoming),
+    pastBookings: enrichedBookings.filter(b => !b.isUpcoming || b.status === "cancelled"),
     activePackages: enrichedPackages,
   });
 }
